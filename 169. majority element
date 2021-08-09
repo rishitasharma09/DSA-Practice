@@ -1,0 +1,35 @@
+class Solution {
+    public int majorityElement(int[] arr)
+    {
+        
+        //TC: O(n) SC: O(1)  ---> BOYER MOORE VOTING ALGORITHM 
+        
+        
+        int val = arr[0];
+        int count = 1;
+        int n= arr.length;
+        
+        for(int i=1;i<n;i++)
+        {
+            if(val==arr[i])
+                count++;
+            
+            else
+            {
+                if(count==0)
+                {
+                    val = arr[i];
+                    count=1;
+                }
+                
+                else
+                {
+                    count--;
+                    // i++;
+                }
+            }
+        }
+        
+        return val;
+    }
+}
