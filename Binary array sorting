@@ -1,0 +1,22 @@
+class Solution
+{
+    //Function to sort the binary array.
+    static void binSort(int a[], int n)
+    {
+        int i=0, j=0;
+        while(j<n)
+        {
+            if(a[j]==0)
+            {
+                //swap a[i],a[j]
+                int temp = a[j];
+                a[j] = a[i];
+                a[i]=temp;
+                
+                i++; j++;
+            }
+            else
+                j++;
+        }
+    }
+}
