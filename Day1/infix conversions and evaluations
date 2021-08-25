@@ -1,0 +1,150 @@
+import java.io.*;
+import java.util.*;
+
+public class Main{
+  
+
+public static void main(String[] args) throws Exception 
+{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String exp = br.readLine();
+    
+    Stack<String> pre = new Stack<>();
+    Stack<String> post = new Stack<>();
+    Stack<Character> op = new Stack<>();
+    
+    for(int i=0;i<exp.length();i++)
+    {
+        char c = exp.charAt(i);
+        
+        if(c == '(')
+            op.push(c);
+            
+        else if(c == ')')
+        {
+            while(op.peek()!='(')
+            {
+                process(op, pre, post);
+                // char ch = op.pop();
+                
+                // String s2 = pre.pop();
+                // String s1 = pre.pop();
+                // // String f1 = preVal(s1, s2, ch);
+                // String f1 = ch + s1 + s2;
+                // pre.push(f1);
+                
+                // String v2 = post.pop();
+                // String v1 = post.pop();
+                // // String f2 = postVal(v1, v2, ch);
+                // String f2 = v1 + v2 + ch;
+                // post.push(f2);
+            }
+            op.pop();
+        }
+        
+        else if(c == '+' || c == '-' || c == '/' || c == '*')
+        {
+            while(!op.isEmpty() && op.peek()!='(' && prec(c)<=prec(op.peek()))
+            {
+                process(op, pre, post);
+                // char ch = op.pop();
+                
+                // String s2 = pre.pop();
+                // String s1 = pre.pop();
+                // // String f1 = preVal(s1, s2, ch);
+                // String f1 = ch + s1 + s2;
+                // pre.push(f1);
+                
+                // String v2 = post.pop();
+                // String v1 = post.pop();
+                // // String f2 = postVal(v1, v2, ch);
+                // String f2 = v1 + v2 + ch;
+                // post.push(f2);
+            }
+            op.push(c);
+        }
+        
+        //else or we could write
+        else if((c>='0' && c<='9') || (c>='a' && c<='z') || (c>='A' && c<='Z'))
+        {
+            //char to String --> just add an empty string to the character
+            pre.push(c + "");
+            post.push(c + "");
+        }
+    }
+    
+    while(!op.isEmpty())
+    {
+        process(op, pre, post);
+        // char ch = op.pop();
+                
+        // String s2 = pre.pop();
+        // String s1 = pre.pop();
+        // // String f1 = preVal(s1, s2, ch);
+        // String f1 = ch + s1 + s2;
+        // pre.push(f1);
+                
+        // String v2 = post.pop();
+        // String v1 = post.pop();
+        // // String f2 = postVal(v1, v2, ch); 
+        // String f2 = v1 + v2 + ch;
+        // post.push(f2);
+    }
+    
+    System.out.println(post.pop());
+    System.out.println(pre.pop());
+    
+    
+    
+    
+
+    // code
+    
+ }
+ 
+ static int prec(char ch)
+ {
+    switch(ch)
+    {
+        case '+' :
+            return 1;
+        case '-' :
+            return 1;
+        case '*' :
+            return 2;
+        case '/':
+            return 2;
+    }
+    return 0;
+ }
+ 
+ static void process(Stack<Character> op, Stack<String> pre, Stack<String> post)
+ {
+     char ch = op.pop();
+                
+    String s2 = pre.pop();
+    String s1 = pre.pop();
+    // String f1 = preVal(s1, s2, ch);
+    String f1 = ch + s1 + s2;
+    pre.push(f1);
+    
+    String v2 = post.pop();
+    String v1 = post.pop();
+    // String f2 = postVal(v1, v2, ch);
+    String f2 = v1 + v2 + ch;
+    post.push(f2);
+ }
+ 
+ static String preVal(String s1, String s2, char ch)
+ {
+     String res = ch + s1 + s2;
+     return res;
+ }
+ 
+ static String postVal(String s1, String s2, char ch)
+ {
+     String res =   s1 + s2 + ch;
+     return res;
+ }
+ 
+}
