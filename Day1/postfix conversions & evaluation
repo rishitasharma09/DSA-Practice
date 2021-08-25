@@ -1,0 +1,76 @@
+import java.util.*;
+
+public class Main{
+  
+
+public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String exp = br.readLine();
+    
+    Stack<Integer> val = new Stack<>();
+    Stack<String> pre = new Stack<>();
+    Stack<String> in = new  Stack<>();
+    
+    for(int i=0;i<exp.length();i++)
+    {
+        char ch = exp.charAt(i);
+        
+        if(ch=='+' || ch=='-' || ch=='/' || ch=='*')
+        {
+            int res = calc(val, ch);
+            val.push(res);
+            
+            process(pre, in, ch);
+        }
+        else
+        {
+            pre.push(ch + "");
+            in.push(ch + "");
+            val.push(ch - '0');
+        }
+        
+        
+    }
+    System.out.println(val.pop());
+    System.out.println(in.pop());
+    System.out.println(pre.pop());
+    
+
+    // code
+ }
+ 
+ static int calc(Stack<Integer> val, char ch)
+ {
+    int v2 = val.pop();
+    int v1 = val.pop();
+    switch(ch)
+    {
+        case '+':
+            return v1 + v2;
+        case '-':
+            return v1 - v2;
+        case '/':
+            return v1 / v2;
+        case '*':
+            return v1 * v2;
+        
+    }
+    return 0;
+ }
+ 
+ static void process(Stack<String> pre, Stack<String> in, char ch)
+ {
+     String p2 = pre.pop();
+     String p1 = pre.pop();
+     String resp = ch + p1 + p2;
+     pre.push(resp);
+     
+     String i2 = in.pop();
+     String i1 = in.pop();
+     String resi = '(' + i1 + ch +  i2 + ')';
+     in.push(resi);
+ }
+ 
+ 
+ 
+}
