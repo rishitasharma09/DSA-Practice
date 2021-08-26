@@ -1,0 +1,38 @@
+class Solution {
+    public int[] sortedSquares(int[] nums)
+    {
+//         METHOD 1 ------> TC: O(nlogn) SC: O(1)
+//         for(int i=0;i<nums.length;i++)
+//             nums[i] = nums[i]*nums[i];
+        
+//         Arrays.sort(nums);
+//         return nums;
+        
+//          METHOD 2 --------> TC: O(n) SC: O(1)
+        
+        int n= nums.length;
+        int i=0, j=n-1, k=n-1;
+        
+        int ans[] = new int[n];
+        
+        while(i<j )
+        {
+            int left = nums[i]*nums[i];
+            int right = nums[j]*nums[j];
+            
+            if(left>=right)
+            {
+                ans[k--] = left;
+                i++;
+            }
+            else
+            {
+                ans[k--] = right;
+                j--;
+            }
+        }
+        ans[0] = nums[j]*nums[j];
+        
+        return ans;
+    }
+}
