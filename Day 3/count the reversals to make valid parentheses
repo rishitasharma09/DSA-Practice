@@ -1,0 +1,54 @@
+class Sol
+{
+    int countRev (String s)
+    {
+        // your code here  
+        int n = s.length();
+        Stack<Character> st = new Stack<>();
+        int res=0;
+        
+        //keeping pnly the unbalanced part of the string in stack
+        for(int i=0;i<n;i++)
+        {
+            char ch = s.charAt(i);
+            
+            if(ch=='{')
+            st.push(ch);
+            else if(!st.isEmpty() && ch == '}' && st.peek()=='{')
+            st.pop();
+            else
+            st.push(ch);
+        }
+        
+        int oc=0, cc=0;
+        while(!st.isEmpty())
+        {
+            if(st.peek()=='{')
+            {
+                st.pop();
+                oc++;
+            }
+                
+            else
+            {
+                st.pop(); 
+                cc++;
+            }
+        }
+        
+        //now we have 4 cases
+        if(oc%2==0 && cc%2==0)
+        res = oc/2 + cc/2;
+        
+        else if(oc%2!=0 && cc%2!=0)
+        res = oc/2 + cc/2 + 2;
+        
+        else
+            return -1;
+            
+        return res;
+        
+        
+        
+    }
+}
