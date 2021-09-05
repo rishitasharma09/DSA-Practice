@@ -1,0 +1,52 @@
+class Solution {
+    public int maximalRectangle(char[][] matrix) 
+    {
+        int n = matrix.length; //rows
+        if(n==0)
+            return 0;
+        int m = matrix[0].length; //columns
+        
+        int hist[] = new int[matrix[0].length];
+        int max=0;
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(matrix[i][j]=='1')
+                    hist[j]+=1;
+                else
+                    hist[j]=0;
+            }
+            
+            int area = largestRectangle(hist,m);
+            max = Math.max(area,max);
+        }
+        return max;
+    }
+    
+    public int largestRectangle(int hist[], int size)
+    {
+        int res=0;
+        Stack<Integer> st = new Stack<>();
+        
+        for(int i=0;i<=size;i++)
+        {
+           int val = (i==size) ? -10 : hist[i];
+            
+            while(!st.isEmpty() && hist[st.peek()] > val)
+            {
+                int r = i;
+                int idx = st.pop();
+                int l = st.isEmpty() ? -1 : st.peek();
+                
+                int width = r-l-1;
+                int area = width*hist[idx];
+                
+                res = Math.max(area, res);
+            }
+            st.push(i);
+        }
+        return res;
+    }
+}
