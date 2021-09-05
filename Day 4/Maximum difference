@@ -1,0 +1,59 @@
+class Solution
+{
+    int findMaxDiff(int a[], int n)
+    {
+	// Your code here	
+	    Stack<Integer> st = new Stack<>();
+	    st.push(0);
+	    int max = Integer.MIN_VALUE;    
+	    int right[] = new int[n];
+	    int left[] = new int[n];
+	    
+	    for(int i=1;i<n;i++)
+	    {
+	        while(!st.isEmpty() && a[i] < a[st.peek()])
+	        {
+	           
+	            int idx = st.pop();
+	           // right[idx] = a[i];
+	           // left[idx] = st.isEmpty() ? -1 : a[st.peek()];
+	            int nsr = a[i];
+	           // while(!st.isEmpty() && a[st.peek()]==a[idx])
+    	       // {
+    	       //     st.pop();
+    	       // }
+	            int nsl = st.isEmpty() ? 0 : a[st.peek()];
+	            int diff = Math.abs(nsr - nsl);
+	            max = Math.max(max,diff);
+	        }
+	        if(!st.isEmpty() && a[st.peek()] == a[i])
+	        continue;
+	        st.push(i);
+	    }
+	    while(!st.isEmpty())
+	    {
+	        int idx = st.pop();
+	       // right[idx]=-1;
+	       // left[idx]= st.isEmpty() ? -1 : a[st.peek()];
+	        int nsr = 0;
+	       // while(!st.isEmpty() && a[st.peek()]==a[idx])
+	       // {
+	       //     st.pop();
+	       // }
+            int nsl = st.isEmpty() ? 0 : a[st.peek()];
+            int diff = Math.abs(nsr - nsl);
+            max = Math.max(max,diff);
+	    }
+	    
+	   // for(int i=0;i<n;i++)
+	   // {
+	   //     System.out.print(right[i] + "     ");
+	   // }
+	   // System.out.println();
+	   // for(int i=0;i<n;i++)
+	   // {
+	   //     System.out.print(left[i] + "     ");
+	   // }
+	    return max;
+    }
+}
