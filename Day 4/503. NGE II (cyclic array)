@@ -1,0 +1,31 @@
+class Solution {
+    public int[] nextGreaterElements(int[] arr)
+    {
+        int n = arr.length;
+        Stack<Integer> st = new Stack<>();
+        int ans[] = new int[n];
+        
+        //first iteration
+        st.push(0);
+        for(int i=1;i<n;i++)
+        {
+            while(!st.isEmpty() && arr[i] > arr[st.peek()])
+            {
+                ans[st.pop()]=arr[i];
+            }
+            st.push(i);
+        }
+        
+        //second iteration
+        for(int i=0;i<n;i++)
+        {
+            while(!st.isEmpty() && arr[i] > arr[st.peek()])
+                ans[st.pop()]=arr[i];
+        }
+        
+        //ans for maximum element will always be -1
+        while(!st.isEmpty())
+        ans[st.pop()] = -1;
+        return ans;
+    }
+}
