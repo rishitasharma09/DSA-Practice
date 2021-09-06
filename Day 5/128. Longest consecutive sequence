@@ -1,0 +1,59 @@
+class Solution {
+    public int longestConsecutive(int[] nums) 
+    {
+        // O(n^3) approach-
+        
+//         int max=0;
+        
+//         for(int i=0;i<nums.length;i++)
+//         {
+//             int curr = nums[i];
+//             int count=1;
+            
+//             while(helper(nums, curr+1))
+//             {
+//                 curr++;
+//                 count++; 
+//             }
+            
+//             max = Math.max(max,count);
+//         }
+//         return max;
+        
+        //BETTER APPROACH
+        HashSet<Integer> hs = new HashSet<>();
+        
+        for(int i: nums)
+            hs.add(i);
+        
+        int max=0;
+        
+        for(int i=0;i<nums.length;i++)
+        {
+            int curr = nums[i];
+            int count = 1;
+            
+            if(!hs.contains(curr-1))
+            {
+                while(hs.contains(curr+1))
+                {
+                    curr++;
+                    count++;
+                }
+            }
+            
+            max = Math.max(count,max);
+        }
+        return max;
+    }
+    
+    // public boolean helper(int nums[], int check)
+    // {
+    //     for(int i=0;i<nums.length;i++)
+    //     {
+    //         if(nums[i]==check)
+    //             return true;
+    //     }
+    //     return false;
+    // }
+}
