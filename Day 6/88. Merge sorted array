@@ -1,0 +1,41 @@
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) 
+    {
+        if(n==0) //no merging is needed
+            return;
+        if(m==0) //nums1[] only contains 0's
+        {
+            for(int i=0;i<nums2.length;i++)
+                nums1[i]=nums2[i];
+            return;
+        }
+        int i=0,j=0,k=0;
+        int temp[] = new int[m+n];
+        while(i<m && j<nums2.length)
+        {
+            if(nums1[i]<=nums2[j])
+            {
+                temp[k]=nums1[i];
+                i++; k++;
+            }
+            else
+            {
+                temp[k++]=nums2[j++];
+            }
+        }
+        
+        if(i<m)
+        {
+            while(i<m)
+                temp[k++]=nums1[i++];
+        }
+        if(j<nums2.length)
+        {
+            while(j<nums2.length)
+                temp[k++]=nums2[j++];
+        }
+        
+        System.arraycopy(temp, 0, nums1, 0, m+n);
+        return;
+    }
+}
