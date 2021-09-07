@@ -1,0 +1,42 @@
+class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) 
+    {
+        //O(nk) --> TIME LIMIT EXCEEDED
+//         int n = nums.length; 
+//         for(int i=0;i<n;i++)
+//         {
+//             for(int j=i+1;j<=i+k && j<n; j++)
+//             {
+//                 long val1 = (long)nums[i];
+//                 long val2 = (long)nums[j];
+//                 long check = Math.abs(val1-val2);
+//                 //System.out.println(check);
+//                 if(check<=t)
+//                 {
+//                     //System.out.println(nums[i] + "  " + nums[j]);
+//                     return true;
+//                 }
+                    
+//             }
+//         }
+//         return false;
+        
+        TreeSet<Long> hs = new TreeSet<>();
+        
+        for(int i=0;i<nums.length;i++)
+        {
+            Long floor = hs.floor((long)nums[i]);
+            if(floor!=null && nums[i]-floor<=t)
+                return true;
+            
+            Long ceil = hs.ceiling((long)nums[i]);
+            if(ceil!=null && ceil-nums[i]<=t)
+                return true;
+            
+            hs.add((long)nums[i]);
+            if(hs.size()>k)
+                hs.remove((long)nums[i-k]);
+        }
+        return false;
+    }
+}
