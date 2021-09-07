@@ -1,0 +1,29 @@
+class Solution {
+    public List<List<Integer>> generate(int numRows)
+    {
+        List<List<Integer>> ans = new ArrayList<>();
+        int r=1,i=0;
+        
+        while(r<=numRows)
+        {
+            int prevIdx = r-2;
+            int j = 0;
+            List<Integer> al = new ArrayList<>();
+            al.add(1);
+            for(i=2;i<r;i++)
+            {
+               // int entry1 = ans.get(prevIdx).get(j); 
+               // j++;
+               // int entry2 = ans.get(prevIdx).get(j);
+               // int entry = entry1+entry2;
+                int entry = ans.get(prevIdx).get(j++) + ans.get(prevIdx).get(j);
+               al.add(entry); 
+            }
+            if(i==r)
+                al.add(1);
+            ans.add(al);
+            r++;
+        }
+        return ans;
+    }
+}
