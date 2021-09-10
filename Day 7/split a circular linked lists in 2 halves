@@ -1,0 +1,41 @@
+class gfg
+{
+        // Function  to split a circular LinkedList
+	    void splitList(circular_LinkedList list)
+        {
+             // Your code here
+             circular_LinkedList obj = new circular_LinkedList();
+             Node head = list.head;
+             if(head==null)
+                return;
+                
+             Node slow = head;
+             Node fast = head;
+             
+             while(fast.next!=head && fast.next.next!=head)
+             {
+                 slow = slow.next;
+                 fast = fast.next.next;
+             }
+             
+             Node head1_ref = head;
+             Node head2_ref = null;
+             
+             //last pointer in case of even list
+             if(fast.next.next == head)
+                fast = fast.next;
+            
+            if (head.next != head)
+            head2_ref = slow.next;
+            fast.next = head2_ref;
+            
+            slow.next = head1_ref ;
+            
+            
+            obj.printList(head1_ref);
+            if(head2_ref!=null)
+            obj.printList(head2_ref);
+	 }
+	 
+
+}
