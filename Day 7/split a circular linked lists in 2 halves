@@ -18,23 +18,20 @@ class gfg
                  fast = fast.next.next;
              }
              
-             Node head1_ref = head;
-             Node head2_ref = null;
+             list.head1 = head;
+             
              
              //last pointer in case of even list
              if(fast.next.next == head)
                 fast = fast.next;
             
             if (head.next != head)
-            head2_ref = slow.next;
-            fast.next = head2_ref;
+            list.head2 = slow.next;
+            fast.next = slow.next;
+            //System.out.println(fast.next.data);
             
-            slow.next = head1_ref ;
+            slow.next = list.head1 ;
             
-            
-            obj.printList(head1_ref);
-            if(head2_ref!=null)
-            obj.printList(head2_ref);
 	 }
 	 
 
