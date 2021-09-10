@@ -1,0 +1,96 @@
+class LRUCache {
+    
+    public class Node {
+        int key;
+        int val;
+        Node next;
+        Node prev;
+        
+    
+    }
+    
+    //global variables
+    int cap;
+    HashMap<Integer, Node> hm;
+    Node head;
+    Node tail;
+    
+
+    public LRUCache(int capacity) {
+        cap = capacity;
+        hm = new HashMap<>();
+        head = new Node();
+        tail = new Node();
+        head.next = tail;
+        tail.prev = head;
+    }
+    
+    public int get(int key) 
+    {
+        if(hm.containsKey(key))
+        {
+            Node temp = hm.get(key);
+            extract(temp);
+            addBeforeTail(temp);
+            return temp.val;
+        }
+        return -1;
+    }
+    
+    public void put(int key, int value) 
+    {
+        if(hm.containsKey(key))
+        {
+            Node n = hm.get(key);
+            extract(n);
+            n.val = value;
+            addBeforeTail(n);
+        }
+        else
+        {
+            if(hm.size()==cap)
+            {
+                Node temp = head.next;
+                extract(temp);
+                hm.remove(temp.key);
+            }
+            Node addition = new Node();
+            addition.val = value;
+            addition.key = key;
+            
+            hm.put(key, addition);
+            addBeforeTail(addition);
+        }
+    }
+    
+    public void extract(Node temp)
+    {
+        Node tempM1 = temp.prev;
+        Node tempP1 = temp.next;
+        
+        tempM1.next = tempP1;
+        tempP1.prev = tempM1;
+        
+        temp.next = null;
+        temp.prev = null;
+        
+    }
+    
+    public void addBeforeTail(Node temp)
+    {
+        Node tailM1 = tail.prev;
+        tailM1.next = temp;
+        temp.prev = tailM1;
+        temp.next = tail;
+        tail.prev = temp;
+    }
+}
+
+
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
