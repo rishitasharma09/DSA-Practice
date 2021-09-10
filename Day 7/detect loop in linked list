@@ -1,0 +1,25 @@
+In this question we just had to return true if cycle exists and false it cycle doesn't exist. There is an advanced version of this question which is
+FLOYD CYCLE -> in this we also need to return the connecting node.
+
+
+class Solution {
+    //Function to check if the linked list has a loop.
+    public static boolean detectLoop(Node head)
+    {
+        // Add code here
+        Node slow = head;
+        Node fast = head;
+        
+        while(fast!=null && fast.next!=null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+            
+            if(slow==fast)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}
