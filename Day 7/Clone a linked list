@@ -1,0 +1,74 @@
+class Clone 
+{
+    //Function to clone a linked list with next and random pointer.
+    Node copyList(Node head) 
+    {
+        // your code here
+        if(head==null)
+        return null;
+        
+        insertion(head);
+        setRandomPointers(head);
+        return extract(head);
+    }
+    
+    void insertion(Node head)
+    {
+        Node curr = head;
+        
+        while(curr!=null)
+        {
+            Node currP1 = curr.next;
+            
+            Node n = new Node(curr.data);
+            n.next = currP1;
+            curr.next = n;
+            
+            curr = currP1;
+        }
+        return;
+    }
+    
+    void setRandomPointers(Node head)
+    {
+        Node curr = head;
+        
+        while(curr!=null)
+        {
+            if(curr.arb!=null)
+            {
+                Node n = curr.next;
+                n.arb = curr.arb.next;
+                
+            }
+            curr = curr.next.next;
+        }
+        return;
+    }
+    
+    Node extract(Node head)
+    {
+        Node curr = head;
+        Node newHead = curr.next;
+        
+        while(curr!=null)
+        {
+           Node n = curr.next;
+           
+           Node currP2 = curr.next.next;
+           curr.next = currP2;
+           
+           if(n.next!=null)
+           {
+               Node nP2 = n.next.next;
+               n.next = nP2;
+               n = nP2;
+           }
+           
+           curr = currP2;
+        }
+        
+        return newHead;
+    }
+}
+
