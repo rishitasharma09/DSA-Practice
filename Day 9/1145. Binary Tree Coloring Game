@@ -1,0 +1,36 @@
+class Solution {
+    public boolean btreeGameWinningMove(TreeNode root, int n, int x) 
+    {
+          if(root==null)
+              return false;
+        if(root.val==x)
+        {
+            int lcount = getSize(root.left);
+            int rcount = getSize(root.right);
+            int remCount = n - lcount - rcount - 1;
+            
+            if(lcount>n/2 || rcount>n/2 || remCount>n/2)
+                return true;
+            else
+                return false;
+        }
+        // boolean l = btreeGameWinningMove(root.left,n,x);
+        // if(l)
+        //     return true;
+        // boolean r = btreeGameWinningMove(root.right,n,x);
+        // if(r)
+        //     return true;
+        // return false;
+        return btreeGameWinningMove(root.left,n,x) || btreeGameWinningMove(root.right,n,x);
+    }
+    
+    public int getSize(TreeNode root)
+    {
+        if(root==null)
+            return 0;
+        int ls = getSize(root.left);
+        int rs = getSize(root.right);
+        int ts = ls+rs+1;
+        return ts;
+    }
+}
