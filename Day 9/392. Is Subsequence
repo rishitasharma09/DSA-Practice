@@ -4,12 +4,6 @@ class Solution {
         int sl = s.length();
         int tl = t.length();
         
-        if(tl==0 && sl==0)
-            return true;
-        
-        if(tl==0)   //for sure sl is not 0
-            return false;
-        
         if(sl==0)   //for sure tl is not 0
             return true;
         
