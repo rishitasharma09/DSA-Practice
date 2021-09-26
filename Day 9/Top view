@@ -1,0 +1,64 @@
+/*
+class Node{
+    int data;
+    Node left;
+    Node right;
+    Node(int data){
+        this.data = data;
+        left=null;
+        right=null;
+    }
+}
+*/
+
+class Solution
+{
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    static class Pair
+    {
+        Node node;
+        int ver;
+        
+        Pair(Node node, int ver)
+        {
+            this.node=node;
+            this.ver=ver;
+        }
+    }
+    static ArrayList<Integer> topView(Node root)
+    {
+        // add your code
+        
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+        TreeMap<Integer,Node> tm = new TreeMap<>();
+        Queue<Pair> q = new ArrayDeque<>();
+        Pair p = new Pair(root,0);
+        q.add(p);
+        
+        while(!q.isEmpty())
+        {
+            Pair p1 = q.remove();
+            Node n1 = p1.node;
+            int v1 = p1.ver;
+            
+            if(n1.left!=null)
+                q.add(new Pair(n1.left,v1-1));
+                
+            if(n1.right!=null)
+                q.add(new Pair(n1.right,v1+1));
+            
+            if(!tm.containsKey(v1))
+                tm.put(v1,n1);
+            else
+                continue;
+        }
+        
+        for(Node n: tm.values())
+        {
+            ans.add(n.data);
+        }
+        return ans;
+        
+    }
+}
