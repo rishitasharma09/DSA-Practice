@@ -1,0 +1,49 @@
+class Pair
+{
+    Node node;
+    int ver;
+    Pair(Node node, int ver)
+    {
+        this.node = node;
+        this.ver = ver;
+    }
+}
+class Solution
+{
+    //Function to find the vertical order traversal of Binary Tree.
+    static ArrayList <Integer> verticalOrder(Node root)
+    {
+        // add your code here
+        ArrayList <Integer> ans = new ArrayList <Integer>();
+        TreeMap<Integer,ArrayList<Integer>> tm = new TreeMap<>();
+        Queue<Pair> q = new ArrayDeque<>();
+        Pair p1 = new Pair(root,0);
+        q.add(p1);
+        
+        while(!q.isEmpty())
+        {
+            Pair curr = q.remove();
+            int v = curr.ver;
+            Node n = curr.node;
+            
+            if(!tm.containsKey(v))
+                tm.put(v,new ArrayList<>());
+            tm.get(v).add(n.data);
+            
+            if(n.left!=null)
+                q.add(new Pair(n.left,v-1));
+            if(n.right!=null)
+                q.add(new Pair(n.right,v+1));
+        }
+        
+        for(ArrayList<Integer> al : tm.values())
+        {
+            for(int i=0;i<al.size();i++)
+            {
+                ans.add(al.get(i));
+            }
+        }
+        return ans;
+        
+    }
+}
