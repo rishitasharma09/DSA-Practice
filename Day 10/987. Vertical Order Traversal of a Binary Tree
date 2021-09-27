@@ -1,0 +1,73 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Tuple
+{
+    TreeNode node;
+    int h;
+    int v;
+    Tuple(TreeNode node, int v, int h)
+    {
+       this.node = node;
+        this.v = v;
+        this.h = h;
+    }
+}
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) 
+    {
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> map = new TreeMap<>();
+        Queue<Tuple> q = new ArrayDeque<>();
+        
+        Tuple t = new Tuple(root,0,0);
+        q.add(t);
+        
+        while(!q.isEmpty())
+        {
+            Tuple t1 = q.remove();
+            TreeNode curr = t1.node;
+            int v1 = t1.v;
+            int h1 = t1.h;
+            
+            if(!map.containsKey(v1))
+                map.put(v1,new TreeMap<>());
+            if(!map.get(v1).containsKey(h1))
+                map.get(v1).put(h1,new PriorityQueue<>());
+            
+            map.get(v1).get(h1).add(curr.val);
+            
+            if(curr.left!=null)
+                q.add(new Tuple(curr.left,v1-1,h1+1));
+            if(curr.right!=null)
+                q.add(new Tuple(curr.right,v1+1,h1+1));
+        }
+        
+        for(TreeMap<Integer, PriorityQueue<Integer>> tm : map.values())
+        {
+            List<Integer> al = new ArrayList<Integer>();
+            for(PriorityQueue<Integer> pq : tm.values())
+            {
+                while(pq.size()!=0)
+                {
+                    al.add(pq.remove());
+                }
+            }
+            ans.add(al);
+        }
+        return ans;
+        
+    }
+}
