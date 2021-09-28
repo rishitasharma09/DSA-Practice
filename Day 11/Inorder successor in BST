@@ -1,0 +1,99 @@
+//EFFICIENT APPROACH 
+TC : O(height of BST)
+
+class Solution
+{
+    // returns the inorder successor of the Node x in BST (rooted at 'root')
+    Node found;
+    Node min;
+	public Node inorderSuccessor(Node root,Node x)
+    {
+      //add code here.  
+      Node ans = null;
+      
+      while(root.data!=x.data)
+      {
+        //go to left side
+        if(root.data > x.data)
+        {
+            ans=root;
+            root=root.left;
+        }
+            
+        else
+            root=root.right;
+      }
+    //   System.out.println(root.data + "   " + ans.data);
+      if(root.right!=null)
+      {
+          Node rootP1 = root.right;
+          while(rootP1.left!=null)
+          {
+             rootP1 = rootP1.left; 
+          }
+          ans = rootP1;
+      }
+      return ans;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TC : O(n) -> WORST CASE
+/*Complete the function below
+Node is as follows:
+class Node{
+	int data;
+	Node left,right;
+	Node(int d){
+		data=d;
+		left=right=null;
+	}
+}
+*/
+class Solution
+{
+    // returns the inorder successor of the Node x in BST (rooted at 'root')
+    Node found;
+    Node min;
+	public Node inorderSuccessor(Node root,Node x)
+    {
+      //add code here.  
+      found = null;
+      min=null;
+      inorder(root,x);
+      return min;
+    }
+    public void inorder(Node root, Node x)
+    {
+        if(root==null)
+            return;
+        
+        inorder(root.left,x);
+        
+        if(root==x)
+        {
+            found=x;
+        }
+        if(found!=null && x.data<root.data && min==null)
+        {
+            min=root;
+        }
+        if(min==null)
+        inorder(root.right,x);
+    }
+}
+
+
+
