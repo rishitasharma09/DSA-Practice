@@ -1,0 +1,113 @@
+class Solution {
+    
+    //we need to make a graph/tree from this 2-d matrix edges[][]
+    ArrayList<ArrayList<Integer>> tree;
+    int[] count;
+    int ans[];
+    
+    public int[] sumOfDistancesInTree(int n, int[][] edges) 
+    {
+        count = new int[n];
+        ans = new int[n];
+        
+        tree = new ArrayList<>();
+        for(int i=0;i<n;i++)
+            tree.add(new ArrayList<>());
+        for(int i=0;i<edges.length;i++)
+        {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            
+            tree.get(u).add(v);
+            tree.get(v).add(u);
+        }
+        
+        //making src as 0 for keeping and consistency
+        //also, if there is only 1 node given i.e n==1 then choosing
+        //anyother node as src would give me NullPointerException
+        int src = 0;
+    
+        countFunc(src,new boolean[n]);
+        // for(int i=0;i<n;i++)
+        //     System.out.print(count[i] + "  ");
+        levelOrder(src,new boolean[n]);
+        System.out.print(ans[src]);
+        answer(src, new boolean[n],n);
+        return ans;
+        
+    }
+    
+    public void answer(int src, boolean vis[], int n)
+    {
+        Queue<Integer> q = new ArrayDeque<>();
+        q.add(src);
+        
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            while(size-- > 0)
+            {
+                int rem = q.remove();
+                vis[rem] = true;
+                
+                for(int child : tree.get(rem))
+                {
+                    if(vis[child]==false)
+                    {
+                        ans[child] = ans[rem] - count[child] + (n-count[child]);
+                        q.add(child);
+                    }
+                }
+            }
+        }
+    }
+    
+    public void levelOrder(int src, boolean vis[])
+    {
+        // boolean[] vis = new boolean[n];
+        //vis[src] = true;
+        Queue<Integer> q = new ArrayDeque<>();
+        q.add(src);
+        int level = 0;
+        
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            while(size-->0)
+            {
+                int rem = q.remove();
+                vis[rem]=true;
+                ans[src]+=level;
+                
+                //in normal level order of binary tree, we used to check if
+                //node has got left and right child, but here we'll see if node
+                //which is src has neighbours and alse see if those neighbours
+                //are not visited yet
+                for(int child : tree.get(rem))
+                {
+                    if(vis[child]==false)
+                        q.add(child);
+                }
+            }
+            //shows at what distance (in terms of edges) rem is froms src
+            level++;
+        }
+    }
+    
+    public int countFunc(int src, boolean vis[])
+    {
+        vis[src] = true;
+        
+        for(int child : tree.get(src))
+        {
+           if(vis[child]==false)
+           {
+               int temp = countFunc(child,vis);
+               count[src] += temp;
+           }
+        }
+        
+        count[src]+=1;
+        return count[src];
+    }
+}
