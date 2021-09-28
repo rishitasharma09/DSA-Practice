@@ -1,0 +1,21 @@
+class Solution {
+    long ans;
+    public long imgMultiply(Node root)
+    {
+        // code here
+        ans = root.data*root.data;
+        traversal(root.left,root.right);
+        return ans%((long)Math.pow(10,9) + 7);
+    }
+    void traversal(Node l, Node r)
+    {
+        if(l==null || r==null)
+            return;
+        
+        ans += (l.data*r.data);
+        
+        traversal(l.left,r.right);
+        traversal(l.right,r.left);
+    }
+    
+}
