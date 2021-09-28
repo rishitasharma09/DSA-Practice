@@ -1,0 +1,20 @@
+class Solution {
+    int cost;
+    public int distributeCoins(TreeNode root) 
+    {
+        cost = 0;
+        traversal(root);
+        return cost;
+    }
+    
+    public int traversal(TreeNode root)
+    {
+        if(root==null)
+            return 0;
+        int l = traversal(root.left);
+        int r = traversal(root.right);
+        
+        cost += Math.abs(l) + Math.abs(r);
+        return l+r+root.val-1;
+    }
+}
