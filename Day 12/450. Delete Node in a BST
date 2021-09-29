@@ -1,0 +1,53 @@
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) 
+    {
+        //if key doesn't exist
+        if(root==null)
+           return null;
+        
+        else if(root.val>key)
+            root.left = deleteNode(root.left,key);
+        
+        else if(root.val<key)
+            root.right = deleteNode(root.right,key);
+        
+        else //root.val == key, node to be deleted is found
+            root = helper(root);
+        
+        return root;
+        
+    }
+    
+    //this node is the node that we want to delete
+    public TreeNode helper(TreeNode node)
+    {
+        if(node.left==null && node.right==null)
+            return null;
+        
+        else if(node.left==null)
+            return node.right;
+        
+        else if(node.right==null)
+            return node.left;
+        
+        //else to be deleted node has both left and right nodes/subtrees
+        
+        //way 1
+        // TreeNode leftP1 = node.left;
+        // //finding the largest node in left subtree of to be deleted node
+        // while(leftP1.right!=null)
+        //     leftP1 = leftP1.right;
+        // leftP1.right = node.right;
+        // return node.left;
+        
+        //way 2
+        TreeNode rightP1 = node.right;
+        //finding the smallest node in right subtree of to be deleted node
+        while(rightP1.left!=null)
+            rightP1 = rightP1.left;
+        rightP1.left = node.left;
+        return node.right;
+        
+            
+    }
+}
