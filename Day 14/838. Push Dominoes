@@ -1,0 +1,79 @@
+class Solution {
+    public String pushDominoes(String d) 
+    {
+        d = "L" + d + "R";
+        
+        StringBuilder ans = new StringBuilder();
+        ans.append(d.charAt(0));
+        
+        int i=0;
+        for(int j=1;j<d.length();j++)
+        {
+           while(d.charAt(j)=='.')
+               j+=1;
+            
+            //number of standing dominoes between i and j basically number of dots.
+            int count = j-i-1;
+            
+            if(d.charAt(i)=='L' && d.charAt(j)=='L')
+            {
+                while(count-->0)
+                    ans.append('L');
+                ans.append(d.charAt(j));
+            }
+            
+            else if(d.charAt(i)=='R' && d.charAt(j)=='R')
+            {
+                while(count-->0)
+                    ans.append('R');
+                ans.append(d.charAt(j));
+            }
+            
+            else if(d.charAt(i)=='L' && d.charAt(j)=='R')
+            {
+                while(count-->0)
+                    ans.append('.');
+                ans.append(d.charAt(j));
+            }
+            
+            else if(d.charAt(i)=='R' && d.charAt(j)=='L')
+            {
+                int divide = count/2;
+                
+                //even number of standing dominoes between R and L
+                if(count%2==0)
+                {
+                    int k = 0;
+                    
+                    while(divide-->0)
+                        ans.append('R');
+                    
+                    divide=count/2;
+                    while(divide-->0)
+                        ans.append('L');
+                    
+                }
+                
+                //odd number of standing dominoes between R and L
+                else
+                {
+                    while(divide-->0)
+                        ans.append('R');
+                    
+                    ans.append('.'); k++;
+                    
+                    divide=count/2;
+                    while(divide-->0)
+                        ans.append('L');
+                    
+                }
+                ans.append(d.charAt(j));
+            }
+            
+            i=j;
+            
+        }
+        ans.deleteCharAt(0); ans.deleteCharAt(ans.length()-1);
+        return ans.toString();
+    }
+}
