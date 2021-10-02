@@ -1,21 +1,87 @@
 class Solution {
     public int partitionDisjoint(int[] nums) 
     {
-        int idx=0, pMax=nums[0], nMax=nums[0];
         
-        for(int i=1;i<nums.length;i++)
-        {
-            if(nums[i]>=pMax)
-                nMax = Math.max(nums[i],nMax);
+        //TC: O(n) SC: O(1)
+//         int idx=0, pMax=nums[0], nMax=nums[0];
+        
+//         for(int i=1;i<nums.length;i++)
+//         {
+//             if(nums[i]>=pMax)
+//                 nMax = Math.max(nums[i],nMax);
             
-            //if(nums[i]<pMax)
-            else
-            {
-                idx=i;
-                pMax=nMax;
-            }
+//             //if(nums[i]<pMax)
+//             else
+//             {
+//                 idx=i;
+//                 pMax=nMax;
+//             }
+//         }
+//         //System.out.println(idx);
+//         return idx+1;
+        
+        
+        
+        
+        //TC: O(n)->iterated over array 3 times,  SC: O(n)-> used 2 arrays of size n
+//         int l[] = new int[nums.length];
+//         int r[] = new int[nums.length];
+//         int n = nums.length;
+        
+//         l[0]=nums[0];
+//         for(int i=1;i<n;i++)
+//         {
+//             // if(nums[i]>l[i-1])
+//             //     l[i]=nums[i];
+//             // else
+//             //     l[i]=l[i-1];
+            
+//             //OR WE COULD WRITE THE ABOVE if-else CODE LIKE-
+//             l[i] = Math.max(nums[i],l[i-1]);
+//         }
+        
+        
+//         r[n-1]=nums[n-1];
+        
+//         for(int i=n-2;i>=0;i--)
+//         {
+//             // if(nums[i]<r[i+1])
+//             //     r[i]=nums[i];
+//             // else
+//             //     r[i]=r[i+1];
+            
+//             //OR WE COULD WRITE THE ABOVE if-else CODE LIKE-
+//             r[i] = Math.min(r[i+1],nums[i]);
+//         }
+        
+//         for(int i=1;i<n;i++)
+//         {
+//             if(l[i-1]<=r[i])
+//                 return i;
+//         }
+        
+//         //even though in ques it is given that there is always 1 parition possible
+//         //but if it was not given then we would have returned -1 in case of no solution
+//         return -1;
+        
+        
+        //TC : O(n)-> iterating twice over the array SC: O(n)-> used an array of size n
+        int n = nums.length;
+        
+        int r[] = new int[n];
+        r[n-1]=nums[n-1];
+        for(int i=n-2;i>=0;i--)
+        {
+            r[i]=Math.min(r[i+1],nums[i]);
         }
-        //System.out.println(idx);
-        return idx+1;
+        
+        int leftMax = nums[0];
+        for(int i=1;i<n;i++)
+        {
+            leftMax = Math.max(leftMax, nums[i-1]);
+            if(leftMax <= r[i])
+                return i;
+        }
+        return -1;
     }
 }
