@@ -1,0 +1,36 @@
+class Solution {
+    
+    public static long pairWithMaxSum(long arr[], long N)
+    {
+        // O(n^2) -> TIME LIMIT EXCEEDED
+        // int n = arr.length;
+        // long ans = Long.MIN_VALUE;
+        // for(int i=0;i<n-1;i++)
+        // {
+        //     long min1 = arr[i], min2 = Long.MAX_VALUE;
+        //     for(int j=i+1;j<n;j++)
+        //     {
+                
+        //         if(arr[j]<min1)
+        //         {
+        //             min2=min1;
+        //             min1=arr[j];
+        //         }
+        //         else if(arr[j]<min2 && arr[j]>=min1)
+        //             min2=arr[j];
+                
+        //         ans = Math.max(ans, min1+min2);
+        //     }
+        // }
+        // return ans;
+        
+        int n = arr.length;
+        long ans = Long.MIN_VALUE;
+        
+        for(int i=0;i<n-1;i++)
+        {
+            ans = Math.max(ans, arr[i]+arr[i+1]);
+        }
+        return ans;
+    }
+}
