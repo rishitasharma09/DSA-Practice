@@ -1,0 +1,29 @@
+//O(3 * s,length()) -> TC
+
+
+class Solution {
+    int lps(String s) {
+        // code here
+        int arr[] = new int[s.length()];
+        char st[] = s.toCharArray();
+        int i=1,len=0;
+        while(i<s.length())
+        {
+            if(st[i]==st[len])
+            {
+                len++;
+                arr[i]=len;
+                i++;
+            }
+            
+            else
+            {
+                if(len>0)
+                    len = arr[len-1];
+                else
+                    i++;
+            }
+        }
+        return arr[s.length()-1];
+    }
+}
