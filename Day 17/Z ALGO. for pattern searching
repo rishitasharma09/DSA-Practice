@@ -1,0 +1,39 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+  public static void solution(String txt, String pat) {
+    // write your code here
+    String s = pat + "#" + txt;
+    
+    int z[] = new int[s.length()];
+    int l=0,r=0;
+    
+    for(int i=1; i<s.length();i++)
+    {
+        if(i<=r)
+            z[i]= Math.min(z[0+i-l], r-i+1);
+        while(z[i]+i < s.length() && s.charAt(z[i])==s.charAt(z[i]+i))
+            z[i]++;
+        if(z[i]+i-1 > r)
+        {
+            l=i;
+            r=z[i]+i-1;
+        }
+        
+        if(z[i]==pat.length())
+            System.out.println(i-pat.length()-1);
+    }
+
+  }
+  
+  public static void main(String[] args) {
+    Scanner scn = new Scanner(System.in);
+    String s1 = scn.nextLine();
+    String s2 = scn.nextLine();
+    solution(s1, s2);
+    System.out.println();
+	}
+
+}
