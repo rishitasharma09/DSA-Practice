@@ -1,0 +1,105 @@
+class Solution {
+    public int strStr(String h, String n)
+    {
+        //if needle is empty return 0;
+       // if(n.length() == 0)
+       //     return 0;
+        //OR
+        if(n.equals(""))
+            return 0;
+        
+        //1513 ms -> NOT GOOD
+        // //else
+        // int i=0, flag=0;
+        // while(i<=h.length()-n.length())
+        // {
+        //     int j=0;
+        //     int temp=i;
+        //     while(j<n.length() && h.charAt(temp)==n.charAt(j) )
+        //     {
+        //         temp++;
+        //         j++; 
+        //     }
+        //     if(j==n.length())
+        //     {
+        //         flag=1;
+        //         break;
+        //     }
+        //     i++;
+        // }
+        // if(flag==1)
+        //     return i;
+        // return -1;
+        
+        
+        
+        
+        
+        //1800 ms -> NOT GOOD EITHER
+        //int j;
+//         for(int i=0; i<=h.length()-n.length();i++)
+//         {
+//             for(int j=0;j<n.length();j++)
+//             {
+//                 if(h.charAt(i+j)!=n.charAt(j))
+//                     break;
+//                 if(j==n.length()-1)
+//                     return i;
+//             }
+            
+//             //can put this condition inside for only and then there will be no need to
+//             //declare j outside the loops
+//             // if(j==n.length())
+//             //     return i;
+//         }
+//         return -1;
+        
+        
+        
+        //300 ms
+        // int nl = n.length();
+        // for(int i=0;i<=h.length()-n.length();i++)
+        // {
+        //     if(h.substring(i,i+nl).equals(n))
+        //         return i;
+        // }
+        // return -1;
+        
+        
+        
+        
+        //USING KMP ALGORITHM - 19ms
+        int nl = n.length();
+        String s = n + "#" + h;
+        int idx = LPS(s,nl);
+        return idx;
+        
+    }
+    
+    int LPS(String st, int nl)
+    {
+        int i=1,len=0;
+        int lps[] = new int[st.length()];
+        while(i<st.length())
+        {
+            if(st.charAt(i)==st.charAt(len))
+            {
+                len++;
+                lps[i]=len;
+                if(lps[i]==nl)
+                    return (i-2*nl);
+                i++;
+            }
+            else
+            {
+                if(len > 0)
+                    len=lps[len-1];
+                else
+                    i++;
+            }
+            
+        }
+        return -1;
+        
+    }
+}
