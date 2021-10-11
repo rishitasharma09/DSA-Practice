@@ -1,0 +1,63 @@
+class Solution {
+    public String shortestPalindrome(String s) 
+    {
+        //O(n^2) approach
+//         StringBuilder temp = new StringBuilder(s);
+//         int n = s.length();
+        
+// 		for(int i=n-1;n>0;i--)
+// 		{
+// 		    StringBuilder check = new StringBuilder(temp);
+// 		    if(check.compareTo(temp.reverse())==0)
+// 		    {
+// 		      //  System.out.println(temp);
+// 		      //  System.out.println(sb);
+// 		        break;
+// 		    }
+// 		    temp = new StringBuilder(s.substring(i));
+// 		    temp.reverse();
+// 		    temp.append(s);
+		  
+// 	    }
+// 		//System.out.println(temp);
+//         return temp.toString();
+        
+        //O(n) approach using LPS
+        String sdash = s + "#" + new StringBuilder(s).reverse();
+        
+        //now using LPS to get length of longest prefix palindrome in string s
+        int prePalin = LPS(sdash);
+        
+        
+        if(prePalin != s.length())
+            s = new StringBuilder(s.substring(prePalin)).reverse() + s;
+        
+        return s;
+    }
+    
+    public int LPS(String st)
+    {
+        int lps[] = new int[st.length()];
+        int i=1, len=0;
+        
+        while(i < st.length())
+        {
+            if(st.charAt(i) == st.charAt(len))
+            {
+                len++;
+                lps[i]=len;
+                i++;
+            }
+            else
+            {
+                if(len > 0)
+                    len = lps[len-1];
+                
+                else
+                    i++;
+            }
+        }
+      
+        return lps[lps.length-1];
+    }
+}
