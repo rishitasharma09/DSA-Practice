@@ -1,0 +1,51 @@
+class Solution {
+    public int[][] intervalIntersection(int[][] f, int[][] s) 
+    {
+        ArrayList<int[]> res = new ArrayList<>();
+        int i=0,j=0;
+        
+        while(i<f.length && j<s.length)
+        {
+            
+            //NOT A GOOD WAY OF WRITING CODE - 
+//             //intersection found
+//             if(f[i][0]<=s[j][1] && s[j][0]<=f[i][1])
+//             {
+//                 int arr[] = new int[2];
+//                 arr[0] = Math.max(f[i][0], s[j][0]);
+//                 arr[1] = Math.min(f[i][1], s[j][1]); 
+                
+//                 if(arr[1]==f[i][1])
+//                     i++;
+//                 else
+//                     j++;
+                
+//                 res.add(arr);
+//             }
+            
+//             //else intersection not found
+//             else
+//             {
+//                 int min =  Math.min(f[i][1], s[j][1]);
+//                 if(min==f[i][1])
+//                     i++;
+//                 else
+//                     j++;
+//             }
+            
+            //BETTER WAY TO WRITE THE SAME LOGIC
+            int low = Math.max(f[i][0],s[j][0]);
+            int high = Math.min(f[i][1], s[j][1]);
+            
+            if(low<=high)
+                res.add(new int[]{low, high});
+            
+            if(f[i][1] <= s[j][1])
+                i++;
+            else
+                j++;
+        }
+        
+        return res.toArray(new int[res.size()][2]);
+    }
+}
