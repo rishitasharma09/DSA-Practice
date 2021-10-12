@@ -1,0 +1,129 @@
+//n = intervals.size()
+//Space : O(2*interval.size())
+//Time : O(2*n) -> traversing part + O(nlogn) -> sorting part , actually 2n but we write n only
+
+/**
+ * Definition of Interval:
+ * public classs Interval {
+ *     int start, end;
+ *     Interval(int start, int end) {
+ *         this.start = start;
+ *         this.end = end;
+ *     }
+ * }
+ */
+
+public class Solution {
+    /**
+     * @param intervals: an array of meeting time intervals
+     * @return: the minimum number of conference rooms required
+     */
+     class Pair
+     {
+        int time;
+        int check;
+
+        Pair(int time, int check)
+        {
+            this.time = time;
+            this.check = check;
+        }
+     }
+
+    class PairComparator implements Comparator<Pair> {
+        @Override
+        public int compare(Pair i1, Pair i2) {
+            return i1.time - i2.time;
+        }
+    }
+    public int minMeetingRooms(List<Interval> intervals) {
+        // Write your code here
+        Pair arr[] = new Pair[2*intervals.size()];
+        int j=0;
+        for(int i=0;i<intervals.size();i++)
+        {
+            arr[j++] = new Pair(intervals.get(i).start,1);
+            arr[j++] = new Pair(intervals.get(i).end,-1);
+        }
+        Arrays.sort(arr, new PairComparator());
+        // for(int i=0;i<arr.length;i++)
+        //     System.out.println(arr[i].time + "     " + arr[i].check);
+
+        int ans = 1;
+        int max = 1;
+        for(int i=1;i<arr.length;i++)
+        {
+            if(arr[i].check == 1)
+            {
+                ans++;
+                max = Math.max(max,ans);
+            }
+            // else if(arr[i].check == -1)
+            // {
+            //     ans--;
+            // }
+            else
+                ans--;
+        }
+        return max;            
+    }
+}
+
+
+
+
+
+
+//way 2 -> same method, we are just using 2 pointers and 2 different arrays
+/**
+ * Definition of Interval:
+ * public classs Interval {
+ *     int start, end;
+ *     Interval(int start, int end) {
+ *         this.start = start;
+ *         this.end = end;
+ *     }
+ * }
+ */
+
+public class Solution 
+{
+
+    /**
+     * @param intervals: an array of meeting time intervals
+     * @return: the minimum number of conference rooms required
+     */
+    public int minMeetingRooms(List<Interval> intervals) 
+    {
+        int[] starts = new int[intervals.size()];
+        int[] ends = new int[intervals.size()];
+
+        for(int i=0;i<intervals.size();i++)
+        {
+            starts[i] = intervals.get(i).start;
+            ends[i] = intervals.get(i).end;
+        }
+
+        Arrays.sort(starts);
+        Arrays.sort(ends);
+
+        int omax=Integer.MIN_VALUE;
+        int cmax=0;
+        int i=0, j=0;
+        while(i<starts.length)
+        {
+            if(starts[i]<ends[j])
+            {
+                cmax++;
+                omax = Math.max(cmax,omax);
+                i++;
+            }
+            else{
+                cmax--;
+                j++;
+            }
+        }
+
+        return omax;
+    }
+}
