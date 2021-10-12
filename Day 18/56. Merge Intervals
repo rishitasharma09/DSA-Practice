@@ -1,0 +1,202 @@
+class Solution {
+    public int[][] merge(int[][] intervals) 
+    {
+//     class Interval implements Comparable<Interval>
+//     {
+//         int st;
+//         int et;
+
+//         Interval(int st, int et)
+//         {
+//             this.st = st;
+//             this.et = et;
+//         }
+
+//         public int compareTo(Interval other)
+//         {
+//             if(this.st!=other.st)
+//                 return this.st - other.st;
+//             else
+//                 return this.et - other.et;
+//         }
+//      }
+//         int n = arr.length;
+//         if(n==0) return new int[0][0];
+//         Interval[] intv = new Interval[arr.length];
+//         for(int i=0;i<arr.length;i++)
+//         {
+//             intv[i] = new Interval(arr[i][0], arr[i][1]);
+//         }
+//         Arrays.sort(intv);
+        
+//         Stack<Interval> s = new Stack<>();
+//         for(int i=0;i<intv.length;i++)
+//         {
+//             if(i==0)
+//                 s.push(intv[i]);
+            
+//             else
+//             {
+//                 Interval top = s.peek();
+//                 if(intv[i].st > top.et)
+//                     s.push(intv[i]);
+//                 else
+//                 {
+//                     top.et = Math.max(top.et, intv[i].et);
+//                 }
+//             }
+//         }
+//         Stack<Interval> rev = new Stack<>();
+//         while(!s.isEmpty())
+//         {
+//             rev.push(s.pop());
+//         }
+//         int res[][] = new int[rev.size()][2]; int i=0;
+//         while(!rev.isEmpty())
+//         {
+//             Interval pair = rev.pop();
+//             res[i][0] = pair.st;
+//             res[i][1] = pair.et;
+//             i++;
+//         }
+//         return res;
+        
+        
+        
+        
+//          WAY 2:
+        
+//         if (intervals.length == 0) return new int[0][0];
+        
+//         List<int[]> windows = new ArrayList<>();
+//         for (int i = 0; i < intervals.length; i++)
+//         {
+//             windows.add(intervals[i]);
+//         }
+//         // sort the intervals i.e ArrayList windows
+//         Collections.sort(windows, new Comparator<int[]>() {
+//             @Override
+//             public int compare(int[] A, int[] B) {
+//                 //if start times are equal then sort on the basis of end times
+//                 //eg -> [[1,5],[10,40],[10,30]]
+//                 if (A[0] == B[0]) {
+//                     return A[1] - B[1];
+//                 }
+//                 return A[0] - B[0];
+//             }
+//         });
+//         // // NOW OUR WINDOWS ARRAYLIST IS SORTED
+//         // for(int i=0;i<windows.size();i++)
+//         // {
+//         //     int[] temp = windows.get(i);
+//         //     System.out.println(temp[0] + "  " + temp[1]);
+//         // }
+        
+        
+//         //sorting the original array
+//         // Arrays.sort(intervals, new Comparator<int[]>(){
+//         //     public int compare(int[] a, int[] b)
+//         //     {   
+//         //         if(a[0] == b[0])
+//         //             return a[1] - b[1];
+//         //         return a[0] - b[0];
+//         //     }
+//         // });
+//         // for(int i=0;i<intervals.length;i++)
+//         // {
+//         //     int[] temp = intervals[i];
+//         //     System.out.println(temp[0] + "  " + temp[1]);
+//         // }
+        
+        
+        
+//         List<int[]> result = new ArrayList<>();
+//         int[] curr = windows.get(0); 
+//         int lb = curr[0];
+//         int rb = curr[1];
+        
+//         // compare curr interval to the next one
+//         // either update currrent bounds: [lb, rb] aka merge
+//         // or add new interval to result
+//         for (int i = 1; i < windows.size(); i++) 
+//         {
+//             int[] window = windows.get(i);
+//             int lb2 = window[0];
+//             int rb2 = window[1];
+            
+//             if (rb < lb2) 
+//             {
+            
+//                 int[] w = {lb, rb};
+//                 result.add(w);
+//                 lb = lb2;
+//                 rb = rb2;
+//             } 
+//             else  // rb >= lb2
+//             {
+//                 rb = Math.max(rb, rb2);
+//             }
+//         }
+        
+//         // add final interval
+//         int[] w = {lb, rb};
+//         result.add(w);
+        
+//         // need to return result as int[][], and not a list of int[]'s
+//         int[][] res = new int[result.size()][2];
+//         for (int i = 0; i < result.size(); i++)
+//         {
+//             res[i] = result.get(i);
+//         }
+        
+//         return res;
+        
+        
+        
+        
+        
+        //METHOD 2 ->  sorting start times and end times individually
+        List<int[]> res = new ArrayList<>();
+        int starts[] = new int[intervals.length];
+        int ends[] = new int[intervals.length];
+        
+        for(int i=0;i<intervals.length;i++)
+        {
+            starts[i] = intervals[i][0];
+            ends[i] = intervals[i][1];
+        }
+        Arrays.sort(starts);
+        Arrays.sort(ends);
+        
+        int i=0,j=0;
+        while(i < starts.length-1)
+        {
+            //merging possible
+            if(ends[i] >= starts[i+1])
+            {
+                i++;
+            }
+            
+            else
+            {
+                int arr[] = new int[2];
+                arr[0] = starts[j];
+                arr[1] = ends[i];
+                res.add(arr);
+                
+                i++;
+                j=i;
+            }
+        }
+        
+        //last interval will never get added therefore,
+        int arr[] = new int[2];
+        arr[0] = starts[j];
+        arr[1] = ends[i];
+        res.add(arr);
+        
+        return res.toArray(new int[res.size()][2]);
+    }
+    
+}
+
