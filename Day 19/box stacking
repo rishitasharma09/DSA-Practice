@@ -1,0 +1,124 @@
+NON STATIC NESTED CLASSES AND STATIC METHOD INSIDE THE SAME OUTER CLASS ie Solution
+class Solution
+{
+  class Box
+    {
+        int h, w, l;
+        Box(int height, int length, int width)
+        {
+            h=height;
+            w=width;
+            l=length;
+        }
+    }
+    class MyCmp implements Comparator<Box>
+    {
+        public int compare(Box b1, Box b2)
+        {
+            if(b1.l==b2.l)
+                return b2.w-b1.w;
+            return b1.l-b2.l;
+        }
+    }
+    public static int maxHeight(int[] height, int[] width, int[] length, int n)
+    {
+ 
+        Solution sol = new Solution();
+        Box arr[] = new Box[n];
+        for(int i=0; i<n; i++)
+        {
+            Box b = sol.new Box(height[i], length[i], width[i]);
+            arr[i] = b; 
+        }
+        
+        Box a[] = new Box[n * 3];
+        for(int i=0;i<n;i++)
+        {
+            Box temp = arr[i];
+            
+            a[3*i] = sol.new Box(temp.h, Math.min(temp.l, temp.w), Math.max(temp.l, temp.w));
+            a[3*i+1] = sol.new Box(temp.l, Math.min(temp.h, temp.w), Math.max(temp.h, temp.w));
+            a[3*i+2] = sol.new Box(temp.w, Math.min(temp.l, temp.h), Math.max(temp.l, temp.h));
+        }
+        
+        Arrays.sort(a, sol.new MyCmp());
+        
+        //applying LIS on width of the boxes stored in array a[]
+        int dp[] = new int[a.length];
+        int ans = 1;
+        for(int i=0; i<a.length; i++)
+        {
+            dp[i] = a[i].h;
+            for(int j=0;j<i;j++)
+            {
+                if(a[i].w > a[j].w)
+                    dp[i]= Math.max(dp[i], dp[j]+a[i].h);
+                    
+                ans = Math.max(dp[i],ans);
+            }
+        }
+        return ans;
+        
+    }
+}
+
+NON STATIC NESTED CLASSES AND A NON STATIC METHOD INSIDE THE SAME OUTERCLASS i.e Solution
+class Box
+    {
+        int h, w, l;
+        Box(int height, int length, int width)
+        {
+            h=height;
+            w=width;
+            l=length;
+        }
+    }
+    class MyCmp implements Comparator<Box>
+    {
+        public int compare(Box b1, Box b2)
+        {
+            if(b1.l==b2.l)
+                return b2.w-b1.w;
+            return b1.l-b2.l;
+        }
+    }
+    public int maxHeight(int[] height, int[] width, int[] length, int n)
+    {
+        Box arr[] = new Box[n];
+        for(int i=0; i<n; i++)
+        {
+            Box b = new Box(height[i], length[i], width[i]);
+            arr[i] = b; 
+        }
+        
+        Box a[] = new Box[n * 3];
+        for(int i=0;i<n;i++)
+        {
+            Box temp = arr[i];
+            
+            a[3*i] = new Box(temp.h, Math.min(temp.l, temp.w), Math.max(temp.l, temp.w));
+            a[3*i+1] = new Box(temp.l, Math.min(temp.h, temp.w), Math.max(temp.h, temp.w));
+            a[3*i+2] = new Box(temp.w, Math.min(temp.l, temp.h), Math.max(temp.l, temp.h));
+        }
+
+        Arrays.sort(a, new MyCmp());
+        
+        //applying LIS on width of the boxes stored in array a[]
+        int dp[] = new int[a.length];
+        int ans = 1;
+        for(int i=0; i<a.length; i++)
+        {
+            dp[i] = a[i].h;
+            for(int j=0;j<i;j++)
+            {
+                if(a[i].w > a[j].w)
+                    dp[i]= Math.max(dp[i], dp[j]+a[i].h);
+                    
+                ans = Math.max(dp[i],ans);
+            }
+        }
+        return ans;
+        
+    }
+}
+
